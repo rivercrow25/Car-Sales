@@ -17,6 +17,23 @@ export const initialState = {
 
 export const stateReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'ADD_FEATURE':
+            // const addNewFeature = state.additionalFeatures.find(id => id.id === action.payload)
+            return {
+                ...state,
+                additionalPrice: state.car.features.reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue
+                }, 0),
+                car: {
+                    ...state.car, features: [...state.car.features, action.payload]
+                }
+            }
+        case 'REMOVE_FEATURE': return {
+            ...state, car: {
+                ...state.car, features: [state.car.features.includes(item => item !== action.payload)]
+            }
+        }
+
         default: return state
     }
 }
