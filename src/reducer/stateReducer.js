@@ -20,13 +20,14 @@ export const stateReducer = (state = initialState, action) => {
         case 'ADD_FEATURE':
             let newPrice
             console.log(newPrice)
-            const reducer = (accumulator, currentValue) => accumulator + currentValue.price
             return {
                 ...state,
                 car: {
                     ...state.car,
-                    price: state.car.features.reduce(reducer, state.car.price + 1500),
-                    features: [...state.car.features, action.payload]
+                    features: [...state.car.features.filter(item => item.id !== action.payload.id), action.payload],
+                    price: state.car.features.reduce((accumulator, currentValue) => {
+                        return accumulator += currentValue.price
+                    }, state.car.price + action.payload.price)
                 }
             }
         case 'REMOVE_FEATURE':
