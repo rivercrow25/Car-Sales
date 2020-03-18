@@ -18,8 +18,6 @@ export const initialState = {
 export const stateReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_FEATURE':
-            let newPrice
-            console.log(newPrice)
             return {
                 ...state,
                 car: {
@@ -28,7 +26,8 @@ export const stateReducer = (state = initialState, action) => {
                     price: state.car.features.reduce((accumulator, currentValue) => {
                         return accumulator += currentValue.price
                     }, state.car.price + action.payload.price)
-                }
+                },
+                additionalFeatures: state.additionalFeatures.filter(item => item !== action.payload)
             }
         case 'REMOVE_FEATURE':
             let newPrice2
@@ -38,7 +37,8 @@ export const stateReducer = (state = initialState, action) => {
                     ...state.car,
                     price: newPrice2 = state.car.features.reduce(reducer2, state.car.price),
                     features: state.car.features.filter(item => item !== action.payload)
-                }
+                },
+                additionalFeatures: [...state.additionalFeatures, action.payload]
             }
 
         default: return state
